@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <nav th:fragment="navbar(account,login,view,catalogs,search)" class="colorlib-nav" role="navigation">
+    <div class="top-menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7 col-md-6">
+                    <div id="colorlib-logo"><a href="/customer/index">Footwear</a></div>
+                </div>
+                <div class="col-sm-5 col-md-3">
+                    <form th:action="|@{/customer/show_all}|" class="search-wrap">
+                        <div class="form-group">
+                            <input type="search" class="form-control search" name="search" placeholder="Search">
+                            <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-1 col-md-3 text-right " th:switch="${login}">
+                    <th:block th:case="login" th:object="${account}">
+                        <ul>
+                            <li class="has-dropdown">
+                                <p>
+                                    <img width="50px" style="border-radius: 50%" th:src="@{*{avatar}}" alt="avatar">
+                                    <span th:text="*{userName}"></span>
+                                </p>
+                                <ul class="dropdown">
+                                    <li><a href="/customer/info_detail">Info Detail</a></li>
+                                    <li><a href="/customer/change_password">Change Pasword</a></li>
+                                    <li><a href="#">Buyed History</a></li>
+                                    <li><a href="/login">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </th:block>
+                    <th:block th:case="not_login">
+                        <a href="/login" class="btn btn-info text-right" type="button"><i class="icon-user"></i> Login</a>
+                    </th:block>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-left menu-1">
+                    <ul>
+                        <li th:class="|${view == 'index' ? 'active' : ''}|"><a href="/customer/index">Home</a></li>
+                        <li th:class="|has-dropdown ${view == 'catalog' ? 'active' : ''}|">
+                            <a href="/customer/catalog">Catalog</a>
+                            <ul class="dropdown">
+                                <li th:each="cat,loop:${catalogs}" th:object="${cat}">
+                                    <a th:href="|@{/customer/show_pro/{id}(id = ${cat.catalogId})}|" th:text="*{catalogName}"></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li th:class="|${view == 'men' ? 'active' : ''}|"><a href="/customer/men">Men</a></li>
+                        <li th:class="|${view == 'women' ? 'active' : ''}|"><a href="/customer/women">Women</a></li>
+                        <li th:class="|${view == 'about' ? 'active' : ''}|"><a href="/customer/about">About</a></li>
+                        <li th:class="|${view == 'contact' ? 'active' : ''}|"><a href="/customer/contact">Contact</a></li>
+                        <li class="cart"><a href="/customer/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sale">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2 text-center">
+                    <div class="row">
+                        <div class="owl-carousel2">
+                            <div class="item">
+                                <div class="col">
+                                    <h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="col">
+                                    <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

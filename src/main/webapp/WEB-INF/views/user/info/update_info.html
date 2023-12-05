@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:fragment="update_info(user)">
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="bread"><span><a href="/customer/index">Home</a></span> / <span>Update Info</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="colorlib-contact">
+            <div class="container">
+                <div class="row align-content-center">
+                    <div class="col-md-10">
+                        <div class="contact-wrap">
+                            <h3>Update Infomation</h3>
+                            <form action="/customer/info/update" method="post" class="contact-form" enctype="multipart/form-data">
+                                <div class="row" th:object="${user}">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="fname">User Name</label>
+                                            <input type="hidden" th:field="*{userId}">
+                                            <input type="hidden" th:field="*{password}">
+                                            <input type="text" id="fname" th:field="*{userName}" class="form-control">
+                                            <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="lname">Full Name</label>
+                                            <input type="text" th:field="*{fullName}" id="lname" class="form-control">
+                                            <p class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" id="email" th:field="*{email}" class="form-control">
+                                            <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-sm-12">
+                                        <p>Old Avatar</p>
+                                        <input type="hidden" th:field="*{avatar}">
+                                        <img width="40%" th:src="@{*{avatar}}" alt="avatar">
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="subject">New Avatar</label>
+                                            <input type="file" th:field="*{newAvatar}" id="subject" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group text-right">
+                                            <input type="submit" value="Update" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

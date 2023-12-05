@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Modal Add -->
+<main class="content" th:fragment="addForm(item)">
+    <div id="loading">
+        <div class="lds-circle"><div></div></div>
+    </div>
+    <div class="container-fluid p-0">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Add New Category</h3>
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid">
+                        <div class="w-25 mx-auto my-2">
+                            <div class="border-1">
+                                <form th:action="@{/catalog/add}" method="post" th:object="${item}">
+                                    <div class="mb-3">
+                                        <label for="category_name" class="form-label">Category Name</label>
+                                        <input type="text" th:field="*{catalogName}" class="form-control" id="category_name">
+                                        <p class="text-danger" th:if="${#fields.hasErrors('catalogName')}" th:errors="*{catalogName}"></p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Descriptions</label>
+                                        <textarea class="form-control" th:field="*{description}" name="des" id="description" rows="3"></textarea>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="/catalog">
+                                            <button type="button" class="btn btn-secondary ">Close</button>
+                                        </a>
+                                        <button type="submit" class="btn btn-primary" >ADD</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>

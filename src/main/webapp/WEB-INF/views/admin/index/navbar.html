@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:fragment="navbar(view)" id="sidebar" class="sidebar js-sidebar">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="/index">
+            <span class="align-middle">AdminKit</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                Pages
+            </li>
+            <li th:class="|sidebar-item ${view=='dashboad'?'active':''}|">
+                <a class="sidebar-link" href="/index">
+                    <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Dashboard</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='catalog'|| view=='catalog_add'|| view=='catalog_edit'?'active':''}|">
+                <a class="sidebar-link" href="/catalog">
+                    <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Category</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='product'|| view=='product_edit' ||view=='product_add'?'active':''}|">
+                <a class="sidebar-link" href="/products">
+                    <i class="align-middle" data-feather="square"></i> <span class="align-middle">Product</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='user'?'active':''}|">
+                <a class="sidebar-link" href="/user">
+                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">User</span>
+                </a>
+            </li>
+            <li th:class="|sidebar-item ${view=='order'?'active':''}|">
+                <a class="sidebar-link" href="/order">
+                    <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Order List</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

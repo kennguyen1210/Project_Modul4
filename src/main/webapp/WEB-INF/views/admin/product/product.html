@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="content" th:fragment="product(products, page, size,totalPage,search,catalogs)">
+        <div class="container-fluid p-0">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Demo Product Table</h3>
+                    <nav class="navbar navbar-expand-lg bg-light">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" href="/add_product_form">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add new Product</button>
+                            </a>
+                            <form class="d-flex" role="search" th:action="@{/products}">
+                                <input class="form-control me-2 fst-italic" type="text"
+                                       placeholder="Enter product's name... "
+                                       aria-label="Search" th:value="${search}" name="search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped text-center">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Product Name</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Gen</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Updated Date</th>
+                            <th colspan="2">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="products">
+                        <tr th:each="pro,loop:${products}">
+                            <td th:text="${loop.count}"></td>
+                            <td th:text="${pro.productName}"></td>
+                            <td >
+                                <img th:each="img,loops:${pro.imageUrl.split(',')}" th:src="${img}" alt="#" width="50px" th:class="m-1">
+                            </td>
+                            <td th:text="${pro.catalogId}"></td>
+                            <td th:text="${pro.description}"></td>
+                            <td th:text="${pro.unitPrice}"></td>
+                            <td th:text="${pro.stock}"></td>
+                            <td th:text="${pro.gen}?'Nam':'Nữ'"></td>
+                            <td th:text="${pro.status}?'Bán':'Không Bán'"></td>
+                            <td th:text="${#temporals.format(pro.created_at,'dd/MM/yyyy')}"></td>
+                            <td th:text="${#temporals.format(pro.updated_at,'dd/MM/yyyy')}"></td>
+                            <td>
+                                <a th:href="|@{/edit_product_form/{id}(id = ${pro.productId})}|"  class="btn btn-warning">Edit</a>
+                            </td>
+                            <td>
+                                <a th:href="|@{/product/delete/{id}(id = ${pro.productId})}|" onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" type="button" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                <nav aria-label="Page navigation example ">
+                    <ul class="pagination float-end mx-4">
+                        <li th:class="|page-item ${page == 0 ? 'disabled':''}|">
+                            <a class="page-link" th:href="@{|?page=${page - 1}&size=${size}&search=${search}|}">Previous</a>
+                        </li>
+                        <th:block th:each="p, loop:${totalPage}">
+                            <li th:class="|page-item ${page == loop.index ?'active':''}|"><a class="page-link" th:href="@{|?page=${loop.index}&size=${size}&search=${search}|}" th:text="${loop.count}"></a></li>
+                        </th:block>
+                        <li th:class="|page-item ${page + 1 == totalPage.length  ?'disabled':''}|">
+                            <a class="page-link" th:href="@{|?page=${page + 1}&size=${size}&search=${search}|}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+</main>
+</body>
+</html>

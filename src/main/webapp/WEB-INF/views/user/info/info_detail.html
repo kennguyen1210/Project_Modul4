@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:fragment="info_detail(account)">
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="bread"><span><a href="/customer/index">Home</a></span> / <span>Info Detail</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="colorlib-contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Customer Information</h3>
+                        <div class="row contact-info-wrap" th:object="${account}">
+                            <div class="col-sm-12">
+                                <p><span><i class="icon-dribbble"></i></span>Avatar : <span><img width="40%" th:src="@{*{avatar}}" alt="#"></span></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p><span><i class="icon-user"></i></span>UserName : <span th:text="*{userName}"></span></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p><span><i class="icon-linkedin"></i></span>FullName : <span th:text="*{fullName}"></span></p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p><span><i class="icon-paperplane"></i></span>Email : <span th:text="*{email}"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12"><a th:href="@{/customer/update_info}" class="btn btn-info">ChangeInfo</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

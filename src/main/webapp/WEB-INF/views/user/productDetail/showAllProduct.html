@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="showAll(products,size,page,total_page,search)">
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="bread"><span><a href="/customer/index">Home</a></span> / <span>Show all product</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="colorlib-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+                    <h2>Product</h2>
+                </div>
+            </div>
+            <div class="row row-pb-md">
+                    <div th:each="p,loop:${products}" th:object="${p}" class="col-lg-3 mb-4 text-center">
+                        <div class="product-entry border">
+                            <a th:href="|@{/customer/product_detail/{id}(id = *{productId})}|" class="prod-img">
+                                <img th:src="@{*{imageUrl}}" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                            </a>
+                            <div class="desc">
+                                <h2><a th:href="|@{/customer/product_detail/{id}(id = *{productId})}|" th:text="*{productName}"></a></h2>
+                                <span class="price" th:text="*{unitPrice}">$139.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="block-27">
+                        <ul>
+                            <li th:id="${page == 0 ? 'an':''}">
+                                <a th:href="@{|?page=${page - 1}&size=${size}&search=${search}|}">
+                                    <i class="ion-ios-arrow-back"></i>
+                                </a>
+                            </li>
+                            <li th:each="p,loop:${total_page}" th:class="|${page == loop.index ?'active':''}|">
+                                <a th:href="@{|?page=${loop.index}&size=${size}&search=${search}|}" th:text="${loop.count}"></a>
+                            </li>
+                            <li th:id="${page + 1 == total_page.length  ?'an':''}">
+                                <a th:href="@{|?page=${page + 1}&size=${size}&search=${search}|}">
+                                    <i class="ion-ios-arrow-forward"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

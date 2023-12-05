@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Transparent Login Form HTML CSS</title>
+    <link rel="stylesheet" href="/login/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+<div class="bg-img">
+    <div class="content">
+        <header>Register Form</header>
+        <form action="/login/doRegister" th:object="${registerForm}" method="post" enctype="multipart/form-data">
+            <div class="field">
+                <span class="fa fa-user"></span>
+                <input type="text" th:field="*{userName}" required placeholder="User Name">
+            </div>
+            <p class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+            <div class="field space">
+                <span class="fa fa-user"></span>
+                <input type="file" id="upFile" th:field="*{avatar}" required placeholder="Avatar">
+            </div>
+            <p class="error" th:if="${#fields.hasErrors('avatar')}" th:errors="*{avatar}"></p>
+            <div class="field space">
+                <span class="fa fa-user"></span>
+                <input type="text" th:field="*{email}" required placeholder="Email">
+            </div>
+            <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="password" th:field="*{password}" class="pass-key" required placeholder="Password">
+                <span class="show">SHOW</span>
+            </div>
+            <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            <div class="field space">
+                <span class="fa fa-lock"></span>
+                <input type="password" th:field="*{rePassword}" class="pass-key" id="pass-key1" required placeholder="Confirm Password">
+                <span class="show" id="show1">SHOW</span>
+            </div>
+            <p class="error" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></p>
+            <div class="field space">
+                <span class="fa fa-user"></span>
+                <input type="text" th:field="*{fullName}" required placeholder="Full Name">
+            </div>
+            <p class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+            <div class="field space">
+                <input type="submit" value="REGISTER">
+            </div>
+        </form>
+        <div class="signup">
+            You have account!
+            <a href="/login">Login Now</a>
+        </div>
+    </div>
+</div>
+<script>
+    const pass_field = document.querySelector('.pass-key');
+    const showBtn = document.querySelector('.show');
+    showBtn.addEventListener('click', function() {
+        if (pass_field.type === "password") {
+            pass_field.type = "text";
+            showBtn.textContent = "HIDE";
+            showBtn.style.color = "#3498db";
+        } else {
+            pass_field.type = "password";
+            showBtn.textContent = "SHOW";
+            showBtn.style.color = "#222";
+        }
+    });
+    const pass_field1 = document.getElementById('pass-key1');
+    const showBtn1 = document.getElementById('show1');
+    showBtn1.addEventListener('click', function() {
+        if (pass_field1.type === "password") {
+            pass_field1.type = "text";
+            showBtn1.textContent = "HIDE";
+            showBtn1.style.color = "#3498db";
+        } else {
+            pass_field1.type = "password";
+            showBtn1.textContent = "SHOW";
+            showBtn1.style.color = "#222";
+        }
+    });
+</script>
+</body>
+
+</html>

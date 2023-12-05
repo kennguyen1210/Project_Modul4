@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head th:insert="user/index/header.html"></head>
+	<body>
+		
+	<div class="colorlib-loader"></div>
+
+	<div id="page" th:switch="${view}">
+		<nav th:insert="user/index/navbar::navbar(${account},${login},${view},${catalogs},${search})"></nav>
+		<th:block th:case="index" th:insert="user/index/indexMain::main(${products})"></th:block>
+		<th:block th:case="productDetail" th:insert="user/productDetail/product-detail::productDetail(${product},${catalog})"></th:block>
+		<th:block th:case="showAll" th:insert="user/productDetail/showAllProduct::showAll(${products},${size},${page},${total_page},${search})"></th:block>
+		<th:block th:case="showProductByCatalogId" th:insert="user/productDetail/productByCatalogId::show(${products},${size},${page},${total_page})"></th:block>
+		<th:block th:case="about" th:insert="user/about/about::about"></th:block>
+		<th:block th:case="cart" th:insert="user/cart/cart::cart"></th:block>
+		<th:block th:case="catalog" th:insert="user/catalog/catalog::catalog(${catalogs})"></th:block>
+		<th:block th:case="contact" th:insert="user/contact/contact::contact"></th:block>
+		<th:block th:case="checkout" th:insert="user/layout/checkout::checkout"></th:block>
+		<th:block th:case="men" th:insert="user/layout/men::men"></th:block>
+		<th:block th:case="women" th:insert="user/layout/women::women"></th:block>
+		<th:block th:case="order_complete" th:insert="user/layout/order-complete::order_complete"></th:block>
+		<th:block th:case="wishList" th:insert="user/cart/add-to-wishlist::wishList"></th:block>
+		<th:block th:case="info_detail" th:insert="user/info/info_detail::info_detail(${account})"></th:block>
+		<th:block th:case="update_info" th:insert="user/info/update_info::update_info(${user})"></th:block>
+		<th:block th:case="change_password" th:insert="user/info/change_password::change_password(${account})"></th:block>
+		<div th:insert="user/index/footer::partner"></div>
+		<footer th:insert="user/index/footer::footer"></footer>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+	</div>
+	
+	<th:block th:insert="user/index/footer::js"></th:block>
+
+	</body>
+</html>
+
