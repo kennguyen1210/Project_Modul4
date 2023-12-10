@@ -12,10 +12,10 @@
                     <h3 class="card-title">Demo Product Table</h3>
                     <nav class="navbar navbar-expand-lg bg-light">
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="/add_product_form">
+                            <a class="navbar-brand" href="/admin/add_product_form">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add new Product</button>
                             </a>
-                            <form class="d-flex" role="search" th:action="@{/products}">
+                            <form class="d-flex" role="search" th:action="@{/admin/products}">
                                 <input class="form-control me-2 fst-italic" type="text"
                                        placeholder="Enter product's name... "
                                        aria-label="Search" th:value="${search}" name="search">
@@ -59,10 +59,10 @@
                             <td th:text="${#temporals.format(pro.created_at,'dd/MM/yyyy')}"></td>
                             <td th:text="${#temporals.format(pro.updated_at,'dd/MM/yyyy')}"></td>
                             <td>
-                                <a th:href="|@{/edit_product_form/{id}(id = ${pro.productId})}|"  class="btn btn-warning">Edit</a>
+                                <a th:href="|@{/admin/edit_product_form/{id}(id = ${pro.productId})}|"  class="btn btn-warning">Edit</a>
                             </td>
                             <td>
-                                <a th:href="|@{/product/delete/{id}(id = ${pro.productId})}|" onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" type="button" class="btn btn-danger">Delete</a>
+                                <a th:href="|@{/admin/product/delete/{id}(id = ${pro.productId})}|" onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" type="button" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
 

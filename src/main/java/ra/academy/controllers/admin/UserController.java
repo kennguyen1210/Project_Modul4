@@ -1,4 +1,4 @@
-package ra.academy.controllers.customer;
+package ra.academy.controllers.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import ra.academy.service.user.UserService;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/admin/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -20,7 +20,7 @@ public class UserController {
        u.setStatus(false);
        u.setUpdatedAt(LocalDateTime.now());
        userService.update(u);
-       return "redirect:/user";
+       return "redirect:/admin/user";
     }
     @RequestMapping("/unlock/{id}")
     public String doUnLock(@PathVariable Long id){
@@ -28,6 +28,6 @@ public class UserController {
         u.setStatus(true);
         u.setUpdatedAt(LocalDateTime.now());
         userService.update(u);
-        return "redirect:/user";
+        return "redirect:/admin/user";
     }
 }

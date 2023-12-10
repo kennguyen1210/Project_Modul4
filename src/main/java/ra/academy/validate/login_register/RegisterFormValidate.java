@@ -34,8 +34,8 @@ public class RegisterFormValidate implements Validator {
             errors.rejectValue("email","mess.err.empty","This field cannot be left blank!");
         } else if (!form.getEmail().matches(EMAILREGEX)){
             errors.rejectValue("email","mess.err.regex","Email is not in correct format ");
-        } else if(list.stream().filter(u->u.getEmail().equals(form.getEmail())).findFirst().orElse(null) != null){
-            errors.rejectValue("email","mess.err.exist","UserName exist!");
+        } else if(list.stream().anyMatch(a->a.getEmail().equals(form.getEmail().trim()))){
+            errors.rejectValue("email","mess.err.exist","Email exist!");
         }
         if(form.getAvatar().getSize() == 0){
             errors.rejectValue("avatar","mess.err.empty","This field cannot be left blank!");

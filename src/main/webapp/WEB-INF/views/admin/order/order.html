@@ -5,9 +5,88 @@
     <title>Title</title>
 </head>
 <body>
-<main class="content" th:fragment="order">
-    <div>
-        <h2>Order List</h2>
+<main class="content" th:fragment="order(orders,page, size,totalPage,status,statusList)">
+    <div class="container-fluid p-0">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Order Table</h3>
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid">
+                        <div class="mb-3">
+                            <form action="/admin/order">
+                                <label for="status" class="form-label">Filter By Status</label>
+                                <select id="status" th:value="${status}" name="status">
+                                    <option value="#">Select Status</option>
+                                    <option value="" >Get All</option>
+                                    <option th:each="l,loop:${statusList}" th:value="${l.status}" th:text="${l.status} + '(' + ${l.count} + ')'" ></option>
+                                </select>
+                                <button type="submit" class="btn btn-info">Filter</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>OrderId</th>
+                        <th>UserId</th>
+                        <th>Name</th>
+                        <th>PhoneNumber</th>
+                        <th>Address</th>
+                        <th>Total</th>
+                        <th>OrderStatus</th>
+                        <th>OrderAt</th>
+                        <th>DeliverAt</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="products">
+                    <tr th:each="o,loop:${orders}">
+                        <td th:text="${loop.count}"></td>
+                        <td th:text="${o.orderId}"></td>
+                        <td th:text="${o.userId}"></td>
+                        <td th:text="${o.name}"></td>
+                        <td th:text="${o.phoneNumber}"></td>
+                        <td th:text="${o.address}"></td>
+                        <td th:text="${o.total}"></td>
+                        <td th:text="${o.orderStatus.name()}"></td>
+                        <td th:text="${#temporals.format(o.orderAt,'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(o.deliverAt,'dd/MM/yyyy')}"></td>
+                        <td th:switch="${o.orderStatus.name()}">
+                            <a th:case="WAITING" th:href="|@{/admin/order/edit_status/{id}(id = ${o.orderId})}|"  class="btn btn-success">Confirm</a>
+                            <a th:case="*" href=""></a>
+                        </td>
+                        <td th:switch="${o.orderStatus.name()}">
+                            <a th:case="SUCCESS" href=""></a>
+                            <a th:case="CANCEL" href=""></a>
+                            <a th:case="*" th:href="|@{/admin/order/delete/{id}(id = ${o.orderId})}|" onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" type="button" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <nav aria-label="Page navigation example ">
+                <ul class="pagination float-end mx-4">
+                    <li th:class="|page-item ${page == 0 ? 'disabled':''}|">
+                        <a class="page-link" th:href="@{|?page=${page - 1}&size=${size}&status=${status}|}">Previous</a>
+                    </li>
+                    <th:block th:each="p, loop:${totalPage}">
+                        <li th:class="|page-item ${page == loop.index ?'active':''}|"><a class="page-link" th:href="@{|?page=${loop.index}&size=${size}&status=${status}|}" th:text="${loop.count}"></a></li>
+                    </th:block>
+                    <li th:class="|page-item ${page + 1 == totalPage.length  ?'disabled':''}|">
+                        <a class="page-link" th:href="@{|?page=${page + 1}&size=${size}&status=${status}|}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 
 </main>

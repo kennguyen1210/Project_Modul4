@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.dialect.IDialect;
@@ -23,11 +24,19 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import ra.academy.dao.catalog.CatalogDao;
+import ra.academy.dao.deliverInfo.DeliverInfoDao;
 import ra.academy.dao.order.OrderDao;
+import ra.academy.dao.orderDetail.OrderDetailDao;
 import ra.academy.dao.user.UserDao;
 import ra.academy.dao.product.ProductDao;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+
 
 import javax.sql.DataSource;
+import java.util.Properties;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"ra.academy"})
@@ -124,6 +133,18 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         return acc;
     }
     @Bean
+    public OrderDetailDao orderDetailDao(){
+        OrderDetailDao acc = new OrderDetailDao();
+        acc.setJdbcTemplate(jdbcTemplate());
+        return acc;
+    }
+    @Bean
+    public DeliverInfoDao deliverInfoDao(){
+        DeliverInfoDao dao = new DeliverInfoDao();
+        dao.setJdbcTemplate(jdbcTemplate());
+        return dao;
+    }
+    @Bean
     public IDialect conditionalCommentDialect() {
         return new Java8TimeDialect();
     }
@@ -133,6 +154,25 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.addDialect(new Java8TimeDialect());
         return templateEngine;
+    }
+    @Bean
+    public JavaMailSender mailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);  // Use port 465 for SMTPS with SSL
+
+        mailSender.setUsername("tammaoubqn@gmail.com");
+        mailSender.setPassword("vdbcomowlcqeehos"); // Replace with your Gmail app password
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        return mailSender;
+    }
+    @Override
+    public void  addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor( new AuthInterceptor()).addPathPatterns("/admin/**");
     }
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ra.academy.dao.product.ProductDao;
 import ra.academy.dto.request.ProductRequest;
+import ra.academy.dto.response.CartList;
 import ra.academy.dto.response.UpdateProductRequest;
 import ra.academy.model.Product;
 import ra.academy.service.UploadFileService;
@@ -101,5 +102,10 @@ public class ProductService implements IProductService {
         return list.stream()
                 .filter(cat->list.indexOf(cat) >= page*size)
                 .limit(size).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateStock(List<CartList> list) {
+        list.forEach(c->productDao.updateStock(c));
     }
 }

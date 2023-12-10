@@ -13,7 +13,7 @@
 <div class="bg-img">
     <div class="content">
         <header>Login Form</header>
-        <form action="/login/doLogin" th:object="${loginForm}" method="post">
+        <form action="/doLogin" th:object="${loginForm}" method="post">
             <div class="field">
                 <span class="fa fa-user"></span>
                 <input type="text" th:field="*{userName}" required placeholder="Username">

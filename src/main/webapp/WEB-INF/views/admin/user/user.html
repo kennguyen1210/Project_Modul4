@@ -12,7 +12,7 @@
                         <h3 class="card-title">Demo User Table</h3>
                         <nav class="navbar navbar-expand-lg bg-light">
                             <div class="container-fluid">
-                                <form class="d-flex" role="search" action="/user">
+                                <form class="d-flex" role="search" action="/admin/user">
                                     <input class="form-control me-2 fst-italic" type="text"
                                            placeholder="Enter user's name... "
                                            aria-label="Search" th:value="${search}" name="search">
@@ -48,12 +48,12 @@
                                 <td th:text="${#temporals.format(u.createdAt,'dd/MM/yyyy HH:mm:ss')}"></td>
                                 <td th:text="${#temporals.format(u.updatedAt,'dd/MM/yyyy HH:mm:ss')}"></td>
                                 <td>
-                                    <a th:href="|@{/user/unlock/{id}(id =  ${u.userId})}|" th:class="|${u.status}?'disabled':''|">
+                                    <a th:href="|@{/admin/user/unlock/{id}(id =  ${u.userId})}|" th:class="${u.status ?'disabled':''}">
                                         <button type="button" class="btn btn-success" >Unlock</button>
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="|@{/user/lock/{id}(id = ${u.userId})}|" th:class="|${u.status}?'':'disabled'|">
+                                    <a th:href="|@{/admin/user/lock/{id}(id = ${u.userId})}|" th:class="${u.status ?'':'disabled'}">
                                         <button type="button" class="btn btn-danger ">Lock</button>
                                     </a>
                                 </td>

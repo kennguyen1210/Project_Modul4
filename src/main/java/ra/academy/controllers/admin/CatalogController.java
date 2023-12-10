@@ -13,7 +13,7 @@ import ra.academy.validate.catalog.CatalogEditValidate;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/catalog")
+@RequestMapping("/admin/catalog")
 public class CatalogController {
     @Autowired
     private CatalogService catalogService;
@@ -31,13 +31,13 @@ public class CatalogController {
         }
         Catalog cat = new Catalog(null,catalog.getCatalogName(),catalog.getDescription(), LocalDateTime.now(),true);
         catalogService.save(cat);
-        return "redirect:/catalog";
+        return "redirect:/admin/catalog";
     }
 
     @GetMapping("/delete/{id}")
     public String doDelete(@PathVariable Long id){
         catalogService.delete(id);
-        return "redirect:/catalog";
+        return "redirect:/admin/catalog";
     }
 
 
@@ -49,6 +49,6 @@ public class CatalogController {
             return "admin/index1";
         }
         catalogService.update(catalog);
-        return "redirect:/catalog";
+        return "redirect:/admin/catalog";
     }
 }

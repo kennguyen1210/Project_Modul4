@@ -7,9 +7,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ra.academy.dao.deliverInfo.DeliverInfoDao;
 import ra.academy.dto.request.LoginForm;
 import ra.academy.dto.request.RegisterForm;
 import ra.academy.model.User;
+import ra.academy.service.order.OrderService;
 import ra.academy.service.user.UserService;
 import ra.academy.validate.login_register.LoginFormValidate;
 import ra.academy.validate.login_register.RegisterFormValidate;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("")
 public class LoginRegisterController {
     @Autowired
     private LoginFormValidate loginFormValidate;
@@ -26,7 +28,14 @@ public class LoginRegisterController {
     private UserService userService;
     @Autowired
     private RegisterFormValidate registerFormValidate;
-    @RequestMapping
+    @Autowired
+    private OrderService orderService;
+    @RequestMapping("/register")
+    public String register(Model model){
+        model.addAttribute("registerForm",new RegisterForm());
+        return "login/register";
+    }
+    @RequestMapping({"/login",""})
     public String login(Model model, HttpSession session){
         model.addAttribute("loginForm",new LoginForm());
         session.setAttribute("login","not_login");
@@ -42,8 +51,9 @@ public class LoginRegisterController {
         session.setAttribute("loginUser",u);
         session.setAttribute("login","login");
         if(u.isRole()){
-            return "redirect:/index";
+            return "redirect:/admin/index";
         }
+        session.setAttribute("orderId",orderService.getCart(u.getUserId()).getOrderId());
         return "redirect:/customer/index";
     }
     @PostMapping("/doRegister")

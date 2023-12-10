@@ -17,7 +17,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public List<User> findAll() {
-        String sql = "select * from users";
+        String sql = "select * from users order by createdAt desc ";
         return jdbcTemplate.query(sql,(rs, rowNum) -> {
             User u = new User();
             u.setUserId(rs.getLong("userId"));
@@ -60,7 +60,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public List<User> findByUserName(String userName) {
-        String sql = "select * from users where fullName like ? and role = 0";
+        String sql = "select * from users where fullName like ? and role = 0 order by createdAt desc ";
         return jdbcTemplate.query(sql,new Object[]{"%" + userName + "%"},(rs, rowNum) -> {
             User u = new User();
             u.setUserId(rs.getLong("userId"));

@@ -6,23 +6,24 @@
 	<div class="colorlib-loader"></div>
 
 	<div id="page" th:switch="${view}">
-		<nav th:insert="user/index/navbar::navbar(${account},${login},${view},${catalogs},${search})"></nav>
+		<nav th:insert="user/index/navbar::navbar(${account},${login},${view},${catalogs},${search},${carts})"></nav>
 		<th:block th:case="index" th:insert="user/index/indexMain::main(${products})"></th:block>
 		<th:block th:case="productDetail" th:insert="user/productDetail/product-detail::productDetail(${product},${catalog})"></th:block>
 		<th:block th:case="showAll" th:insert="user/productDetail/showAllProduct::showAll(${products},${size},${page},${total_page},${search})"></th:block>
 		<th:block th:case="showProductByCatalogId" th:insert="user/productDetail/productByCatalogId::show(${products},${size},${page},${total_page})"></th:block>
 		<th:block th:case="about" th:insert="user/about/about::about"></th:block>
-		<th:block th:case="cart" th:insert="user/cart/cart::cart"></th:block>
+		<th:block th:case="cart" th:insert="user/cart/cart::cart(${carts},${total})"></th:block>
 		<th:block th:case="catalog" th:insert="user/catalog/catalog::catalog(${catalogs})"></th:block>
 		<th:block th:case="contact" th:insert="user/contact/contact::contact"></th:block>
-		<th:block th:case="checkout" th:insert="user/layout/checkout::checkout"></th:block>
-		<th:block th:case="men" th:insert="user/layout/men::men"></th:block>
-		<th:block th:case="women" th:insert="user/layout/women::women"></th:block>
+		<th:block th:case="checkout" th:insert="user/layout/checkout::checkout(${carts},${deliverForm},${lists},${total})"></th:block>
+		<th:block th:case="gen" th:insert="user/layout/gen::gen(${products},${page},${size},${gen},${total_page})"></th:block>
 		<th:block th:case="order_complete" th:insert="user/layout/order-complete::order_complete"></th:block>
 		<th:block th:case="wishList" th:insert="user/cart/add-to-wishlist::wishList"></th:block>
 		<th:block th:case="info_detail" th:insert="user/info/info_detail::info_detail(${account})"></th:block>
 		<th:block th:case="update_info" th:insert="user/info/update_info::update_info(${user})"></th:block>
-		<th:block th:case="change_password" th:insert="user/info/change_password::change_password(${account})"></th:block>
+		<th:block th:case="change_password" th:insert="user/info/change_password::change_password(${passChange})"></th:block>
+		<th:block th:case="check_confirm" th:insert="user/info/check_confirm::confirm(${count},${errorMessage})"></th:block>
+		<th:block th:case="change_complete" th:insert="user/info/change_complete::change_complete(${message})"></th:block>
 		<div th:insert="user/index/footer::partner"></div>
 		<footer th:insert="user/index/footer::footer"></footer>
 	</div>

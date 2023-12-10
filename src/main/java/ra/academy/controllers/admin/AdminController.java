@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ra.academy.dao.order.OrderDao;
+import ra.academy.dao.orderDetail.OrderDetailDao;
 import ra.academy.dto.request.LoginForm;
 import ra.academy.dto.request.ProductRequest;
 import ra.academy.dto.request.RegisterForm;
 import ra.academy.dto.response.UpdateProductRequest;
-import ra.academy.model.Catalog;
-import ra.academy.model.Product;
-import ra.academy.model.User;
+import ra.academy.model.*;
 import ra.academy.service.catalog.CatalogService;
+import ra.academy.service.order.OrderService;
 import ra.academy.service.product.ProductService;
 import ra.academy.service.user.UserService;
 
@@ -24,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private CatalogService catalogService;
@@ -32,16 +33,12 @@ public class AdminController {
     private ProductService productService;
     @Autowired
     private UserService userService;
-    @RequestMapping("")
-    public String login(Model model){
-        model.addAttribute("loginForm",new LoginForm());
-        return "login/login";
-    }
-    @RequestMapping("/register")
-    public String register(Model model){
-        model.addAttribute("registerForm",new RegisterForm());
-        return "login/register";
-    }
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderDao orderDao;
+    @Autowired
+    private OrderDetailDao orderDetailDao;
     @RequestMapping({"/index"})
     public String home(Model model, HttpSession session){
         model.addAttribute("view","dashboad");
@@ -66,7 +63,6 @@ public class AdminController {
     public String addFrom(Model model, HttpSession session){
         model.addAttribute("item",new Catalog());
         model.addAttribute("view","catalog_add");
-        model.addAttribute("account",session.getAttribute("loginUser"));
         return "admin/index1";
     }
 
@@ -74,7 +70,6 @@ public class AdminController {
     public String editForm(@PathVariable Long id, Model model, HttpSession session){
         model.addAttribute("catalog",catalogService.findById(id));
         model.addAttribute("view","catalog_edit");
-        model.addAttribute("account",session.getAttribute("loginUser"));
         return "admin/index1";
     }
     // product
@@ -82,7 +77,6 @@ public class AdminController {
     public String product(Model model, @RequestParam(name = "page", defaultValue = "0") int page,@RequestParam(name = "size", defaultValue = "5") int size, @RequestParam(name = "search", defaultValue = "") String search,HttpSession session ){
         model.addAttribute("view","product");
         model.addAttribute("catalogs",catalogService.findAll());
-        model.addAttribute("account",session.getAttribute("loginUser"));
         model.addAttribute("page",page);
         model.addAttribute("size",size);
         List<Product> list = productService.findAll(page,size,search);
@@ -95,7 +89,6 @@ public class AdminController {
     @RequestMapping("/add_product_form")
     public String addProductFrom(Model model, HttpSession session){
         model.addAttribute("productAdd",new ProductRequest());
-        model.addAttribute("account",session.getAttribute("loginUser"));
         model.addAttribute("view","product_add");
         model.addAttribute("catalogs",catalogService.findAll());
         return "admin/index1";
@@ -105,7 +98,6 @@ public class AdminController {
     public String editProductForm(@PathVariable Long id, Model model, HttpSession session){
         Product p = productService.findById(id);
         UpdateProductRequest editP = productService.updatePro(p);
-        model.addAttribute("account",session.getAttribute("loginUser"));
         model.addAttribute("productEdit",editP);
         model.addAttribute("view","product_edit");
         model.addAttribute("catalogs",catalogService.findAll());
@@ -115,7 +107,6 @@ public class AdminController {
     @RequestMapping("/user")
     public String user(Model model, @RequestParam(name = "page", defaultValue = "0") int page,@RequestParam(name = "size", defaultValue = "5") int size, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session ){
         model.addAttribute("view","user");
-        model.addAttribute("account",session.getAttribute("loginUser"));
         model.addAttribute("page",page);
         model.addAttribute("size",size);
         List<User> list = userService.findAll(page,size,search);
@@ -125,15 +116,25 @@ public class AdminController {
         return "admin/index1";
     }
     @RequestMapping("/order")
-    public String order(Model model, @RequestParam(name = "page", defaultValue = "0") int page,@RequestParam(name = "size", defaultValue = "5") int size, @RequestParam(name = "search", defaultValue = "") String search, HttpSession session ){
+    public String order(Model model, @RequestParam(name = "page", defaultValue = "0") int page,@RequestParam(name = "size", defaultValue = "5") int size, @RequestParam(name = "status", defaultValue = "") String status, HttpSession session ){
         model.addAttribute("view","order");
-        model.addAttribute("account",session.getAttribute("loginUser"));
         model.addAttribute("page",page);
         model.addAttribute("size",size);
-        List<User> list = userService.findAll(page,size,search);
+        List<Order> list = orderService.findAll(page,size,status);
+        model.addAttribute("statusList",orderDao.findQuantityOfStatus());
         model.addAttribute("orders",list);
-        model.addAttribute("totalPage",userService.getTotalPage(size, list.size()));
-        model.addAttribute("search",search);
+        model.addAttribute("totalPage", new int[orderService.getTotalPage(size, orderService.findOrderByStatus(status).size())]);
+        model.addAttribute("status",status);
         return "admin/index1";
+    }
+    @RequestMapping("order/edit_status/{id}")
+    public String order_update(@PathVariable Long id){
+        orderDao.update_status(id, Status.CONFIRM.name());
+        return "redirect:/admin/order";
+    }
+    @RequestMapping("order/delete/{id}")
+    public String order_delete(@PathVariable Long id){
+        orderDao.update_status(id, Status.CANCEL.name());
+        return "redirect:/admin/order";
     }
 }

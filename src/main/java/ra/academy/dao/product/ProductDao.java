@@ -2,10 +2,13 @@ package ra.academy.dao.product;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import ra.academy.dto.response.CartList;
 import ra.academy.model.Product;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 public class ProductDao implements IProductDao {
     private JdbcTemplate jdbcTemplate;
@@ -16,7 +19,7 @@ public class ProductDao implements IProductDao {
 
     @Override
     public List<Product> findAll() {
-        String sql = "select * from products";
+        String sql = "select * from products order by created_at desc ";
         return jdbcTemplate.query(sql,(rs, rowNum) -> {
             Product p = new Product();
             p.setProductId(rs.getLong("productId"));
@@ -25,7 +28,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(rs.getString("imageUrl"));
+            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -60,7 +63,7 @@ public class ProductDao implements IProductDao {
 
     @Override
     public List<Product> findByName(String name) {
-        String sql = "select * from products where productName like ?";
+        String sql = "select * from products where productName like ? order by created_at desc ";
         return jdbcTemplate.query(sql,new Object[]{"%"+name+"%"},(rs, rowNum) -> {
             Product p = new Product();
             p.setProductId(rs.getLong("productId"));
@@ -69,7 +72,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(rs.getString("imageUrl"));
+            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -89,7 +92,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(rs.getString("imageUrl"));
+            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -109,7 +112,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(rs.getString("imageUrl"));
+            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -129,12 +132,19 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(rs.getString("imageUrl"));
+            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
             p.setGen(rs.getBoolean("gen"));
             return p;
         });
+    }
+
+    @Override
+    public void updateStock(CartList c) {
+        Timestamp date = Timestamp.valueOf(LocalDateTime.now());
+        String sql = "update products set stock = ?,updated_at = ? where productId = ?";
+        jdbcTemplate.update(sql,(c.getStock() - c.getQuantity()),date,c.getProductId());
     }
 }

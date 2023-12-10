@@ -14,7 +14,7 @@ public class CatalogDao implements ICatalogDao {
     }
     @Override
     public List<Catalog> findByName(String name) {
-        String sql = "select * from catalogs where catalogName like ?";
+        String sql = "select * from catalogs where catalogName like ? order by createdAt desc ";
 
         return jdbcTemplate.query(sql, new Object[]{"%"+name+"%"},(rs, rowNum) -> {
             Catalog cat = new Catalog();
@@ -29,7 +29,7 @@ public class CatalogDao implements ICatalogDao {
 
     @Override
     public List<Catalog> findAll() {
-        String sql = "select * from catalogs";
+        String sql = "select * from catalogs order by createdAt desc ";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Catalog cat = new Catalog();
             cat.setCatalogId(rs.getLong("catalogId"));

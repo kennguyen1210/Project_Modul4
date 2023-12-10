@@ -13,7 +13,7 @@
 <div class="bg-img">
     <div class="content">
         <header>Register Form</header>
-        <form action="/login/doRegister" th:object="${registerForm}" method="post" enctype="multipart/form-data">
+        <form action="/doRegister" th:object="${registerForm}" method="post" enctype="multipart/form-data">
             <div class="field">
                 <span class="fa fa-user"></span>
                 <input type="text" th:field="*{userName}" required placeholder="User Name">

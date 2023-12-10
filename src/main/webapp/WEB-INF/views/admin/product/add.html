@@ -17,7 +17,7 @@
                     <div class="container-fluid">
                         <div class="w-25 mx-auto my-2">
                             <div class="border-1">
-                                <form th:action="@{/product/add}" method="post" th:object="${productAdd}" enctype="multipart/form-data">
+                                <form th:action="@{/admin/product/add}" method="post" th:object="${productAdd}" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="product_name" class="form-label">Product Name</label>
                                         <input type="text" th:field="*{name}" class="form-control" id="product_name">
@@ -66,7 +66,7 @@
                                         </select>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="/products">
+                                        <a href="/admin/products">
                                             <button type="button" class="btn btn-secondary ">Close</button>
                                         </a>
                                         <button type="submit" class="btn btn-primary" >ADD</button>

@@ -10,11 +10,11 @@ public class Order {
     private String address;
     private boolean type;
     private double total;
-    private String orderStatus;
+    private Status orderStatus;
     private LocalDateTime orderAt;
     private LocalDateTime deliverAt;
 
-    public Order(Long orderId, Long userId, String name, String phoneNumber, String address, boolean type, double total, String orderStatus, LocalDateTime orderAt, LocalDateTime deliverAt) {
+    public Order(Long orderId, Long userId, String name, String phoneNumber, String address, boolean type, double total, Status orderStatus, LocalDateTime orderAt, LocalDateTime deliverAt) {
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;
@@ -87,11 +87,11 @@ public class Order {
     }
 
 
-    public String getOrderStatus() {
+    public Status getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(Status orderStatus) {
         this.orderStatus = orderStatus;
     }
 

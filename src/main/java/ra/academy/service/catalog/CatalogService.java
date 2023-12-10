@@ -61,6 +61,6 @@ public class CatalogService implements ICatalogService{
 
     @Override
     public boolean checkExistByName(String name) {
-        return catalogDao.findAll().stream().anyMatch(e->e.getCatalogName().equals(name));
+        return catalogDao.findAll().stream().anyMatch(e->e.getCatalogName().equals(name.trim()));
     }
 }

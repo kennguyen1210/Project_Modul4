@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <nav th:fragment="navbar(account,login,view,catalogs,search)" class="colorlib-nav" role="navigation">
+    <nav th:fragment="navbar(account,login,view,catalogs,search,carts)" class="colorlib-nav" role="navigation">
     <div class="top-menu">
         <div class="container">
             <div class="row">
@@ -20,8 +20,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-sm-1 col-md-3 text-right " th:switch="${login}">
-                    <th:block th:case="login" th:object="${account}">
+                <div class="col-sm-1 col-md-3 text-right " th:switch="${session.login}">
+                    <th:block th:case="login" th:object="${session.loginUser}">
                         <ul>
                             <li class="has-dropdown">
                                 <p>
@@ -54,11 +54,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li th:class="|${view == 'men' ? 'active' : ''}|"><a href="/customer/men">Men</a></li>
-                        <li th:class="|${view == 'women' ? 'active' : ''}|"><a href="/customer/women">Women</a></li>
+                        <li th:class="|${view == 'men' ? 'active' : ''}|"><a th:href="|/customer/gen?gen=true|">Men</a></li>
+                        <li th:class="|${view == 'women' ? 'active' : ''}|"><a th:href="|/customer/gen?gen=false|">Women</a></li>
                         <li th:class="|${view == 'about' ? 'active' : ''}|"><a href="/customer/about">About</a></li>
                         <li th:class="|${view == 'contact' ? 'active' : ''}|"><a href="/customer/contact">Contact</a></li>
-                        <li class="cart"><a href="/customer/cart"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                        <li class="cart"><a href="/customer/cart"><i class="icon-shopping-cart"></i> Cart <span th:text="${'['+carts.size()+']'}"></span></a></li>
                     </ul>
                 </div>
             </div>

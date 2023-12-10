@@ -16,10 +16,10 @@
                         <h3 class="card-title">Demo Category Table</h3>
                         <nav class="navbar navbar-expand-lg bg-light">
                             <div class="container-fluid">
-                                <a class="navbar-brand" href="/add_form">
+                                <a class="navbar-brand" href="/admin/add_form">
                                     <button type="button" class="btn btn-success" >+ Add new Category</button>
                                 </a>
-                                <form class="d-flex" role="search" th:action="@{/catalog}">
+                                <form class="d-flex" role="search" th:action="@{/admin/catalog}">
                                     <input class="form-control me-2 fst-italic" type="text" placeholder="Enter category's name... "
                                            aria-label="Search" th:value="${search}" name="search">
                                     <button class="btn btn-outline-success" type="submit">Search</button>
@@ -48,10 +48,10 @@
                                 <td th:text="${#temporals.format(cat.createdAt,'dd/MM/yyyy')}"></td>
                                 <td th:text="${cat.status}?'Hien thi':'An'"></td>
                                 <td>
-                                    <a type="button" th:href="|@{/edit_form/{id}(id = ${cat.catalogId})}|" class="btn btn-warning" >Edit</a>
+                                    <a type="button" th:href="|@{/admin/edit_form/{id}(id = ${cat.catalogId})}|" class="btn btn-warning" >Edit</a>
                                 </td>
                                 <td>
-                                    <a th:href="|@{/catalog/delete/{id}(id = ${cat.catalogId})}|" onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" type="button" class="btn btn-danger">Delete</a>
+                                    <a th:href="|@{/admin/catalog/delete/{id}(id = ${cat.catalogId})}|" onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" type="button" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                             </tbody>

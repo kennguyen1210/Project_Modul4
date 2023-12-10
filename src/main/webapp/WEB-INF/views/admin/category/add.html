@@ -18,7 +18,7 @@
                     <div class="container-fluid">
                         <div class="w-25 mx-auto my-2">
                             <div class="border-1">
-                                <form th:action="@{/catalog/add}" method="post" th:object="${item}">
+                                <form th:action="@{/admin/catalog/add}" method="post" th:object="${item}">
                                     <div class="mb-3">
                                         <label for="category_name" class="form-label">Category Name</label>
                                         <input type="text" th:field="*{catalogName}" class="form-control" id="category_name">
@@ -30,7 +30,7 @@
                                         <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="/catalog">
+                                        <a href="/admin/catalog">
                                             <button type="button" class="btn btn-secondary ">Close</button>
                                         </a>
                                         <button type="submit" class="btn btn-primary" >ADD</button>

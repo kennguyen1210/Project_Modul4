@@ -1,6 +1,7 @@
 package ra.academy.service.product;
 
 import ra.academy.dto.request.ProductRequest;
+import ra.academy.dto.response.CartList;
 import ra.academy.dto.response.UpdateProductRequest;
 import ra.academy.model.Product;
 import ra.academy.service.IGeneric;
@@ -17,4 +18,5 @@ public interface IProductService extends IGeneric<Product,Long> {
     int getTotalPage(int size, int len);
     boolean checkExistByName(String name);
     List<Product> getListPro(int page, int size, List<Product> list);
+    void updateStock(List<CartList> list);
 }

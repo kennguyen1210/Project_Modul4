@@ -17,7 +17,7 @@
             <main th:case="product_add" th:insert="admin/product/add::addProductForm(${productAdd},${catalogs})"></main>
             <main th:case="product_edit" th:insert="admin/product/edit::editProductForm(${productEdit},${catalogs})"></main>
             <main th:case="user" th:insert="admin/user/user::user(${users},${page},${size},${totalPage},${search})"></main>
-            <main th:case="order" th:insert="admin/order/order::order"></main>
+            <main th:case="order" th:insert="admin/order/order::order(${orders},${page},${size},${totalPage},${status},${statusList})"></main>
             <main th:case="*" th:text="ERROR"></main>
         </th:block>
 

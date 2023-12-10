@@ -5,7 +5,7 @@
 	<title>Title</title>
 </head>
 	<body>
-		<th:block th:fragment="checkout">
+		<th:block th:fragment="checkout(carts,deliverForm,lists,total)">
 			<div class="breadcrumbs">
 				<div class="container">
 					<div class="row">
@@ -37,97 +37,52 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-8">
-							<form method="post" class="colorlib-form">
+						<div class="col-lg-8 mt-5">
+							<form method="post" th:object="${deliverForm}" action="/customer/order_complete" class="colorlib-form">
 								<h2>Billing Details</h2>
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label >Select Country</label>
+											<label >Delivery Address History</label>
 											<div class="form-field">
 												<i class="icon icon-arrow-down3"></i>
-												<select name="people" id="people" class="form-control">
-													<option value="#">Select country</option>
-													<option value="#">Alaska</option>
-													<option value="#">China</option>
-													<option value="#">Japan</option>
-													<option value="#">Korea</option>
-													<option value="#">Philippines</option>
+												<select name="people" id="history" class="form-control" th:onchange="|handleChange()|">
+													<option value="#">Select Delivery Address</option>
+													<option value="x">Add New Delivery Address</option>
+													<option th:each="a,loop:${lists}" th:value="${a.id}" th:text="${a.address + a.name}"></option>
 												</select>
 											</div>
 										</div>
 									</div>
 
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="fname">First Name</label>
-											<input type="text" id="fname" class="form-control" placeholder="Your firstname">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="lname">Last Name</label>
-											<input type="text" id="lname" class="form-control" placeholder="Your lastname">
-										</div>
-									</div>
-
 									<div class="col-md-12">
 										<div class="form-group">
-											<label for="companyname">Company Name</label>
-											<input type="text" id="companyname" class="form-control" placeholder="Company Name">
+											<label for="fname">Name</label>
+											<input type="text" id="fname" th:field="*{name}" class="form-control" placeholder="Your Name">
+											<input type="hidden" th:field="*{id}">
+											<input type="hidden" th:field="*{userId}">
+											<p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 										</div>
 									</div>
-
 									<div class="col-md-12">
 										<div class="form-group">
 											<label for="fname">Address</label>
-											<input type="text" id="address" class="form-control" placeholder="Enter Your Address">
-										</div>
-										<div class="form-group">
-											<input type="text" id="address2" class="form-control" placeholder="Second Address">
+											<textarea id="address" th:field="*{address}" class="form-control" placeholder="Enter Your Address"></textarea>
+											<p class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
 										</div>
 									</div>
-
 									<div class="col-md-12">
 										<div class="form-group">
-											<label for="towncity">Town/City</label>
-											<input type="text" id="towncity" class="form-control" placeholder="Town or City">
+											<label for="phone">Phone Number</label>
+											<input type="text" th:field="*{phoneNumber}" id="phone" class="form-control" placeholder="Phone Number" >
+											<p class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
 										</div>
 									</div>
+								</div>
 
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="stateprovince">State/Province</label>
-											<input type="text" id="stateprovince" class="form-control" placeholder="State Province">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="zippostalcode">Zip/Postal Code</label>
-											<input type="text" id="zippostalcode" class="form-control" placeholder="Zip / Postal">
-										</div>
-									</div>
-
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="email">E-mail Address</label>
-											<input type="text" id="email" class="form-control" placeholder="State Province">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="Phone">Phone Number</label>
-											<input type="text" id="Phone" class="form-control" placeholder="">
-										</div>
-									</div>
-
-									<div class="col-md-12">
-										<div class="form-group">
-											<div class="radio">
-												<label><input type="radio" name="optradio"> Create an Account? </label>
-												<label><input type="radio" name="optradio"> Ship to different address</label>
-											</div>
-										</div>
+								<div class="col-md-12 mt-4">
+									<div class="col-md-12 text-center">
+										<p><button type="submit" class="btn btn-primary">Place an order</button></p>
 									</div>
 								</div>
 							</form>
@@ -140,14 +95,13 @@
 										<h2>Cart Total</h2>
 										<ul>
 											<li>
-												<span>Subtotal</span> <span>$100.00</span>
+												<span>Subtotal</span> <span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')} + ' VND'"></span>
 												<ul>
-													<li><span>1 x Product Name</span> <span>$99.00</span></li>
-													<li><span>1 x Product Name</span> <span>$78.00</span></li>
+													<li th:each="p,loop:${carts}"><span th:text="${p.quantity + ' x ' + p.name}"></span> <span th:text="${#numbers.formatDecimal(p.total, 0, 'COMMA', 2, 'POINT')} + ' VND'"></span></li>
 												</ul>
 											</li>
-											<li><span>Shipping</span> <span>$0.00</span></li>
-											<li><span>Order Total</span> <span>$180.00</span></li>
+											<li><span>Shipping</span> <span th:text="${#numbers.formatDecimal(100000, 0, 'COMMA', 2, 'POINT')} + ' VND'"></span></li>
+											<li><span>Order Total</span> <span th:text="${#numbers.formatDecimal(total - 100000, 0, 'COMMA', 2, 'POINT')} + ' VND'"></span></li>
 										</ul>
 									</div>
 								</div>
@@ -188,15 +142,22 @@
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-12 text-center">
-									<p><a href="#" class="btn btn-primary">Place an order</a></p>
-								</div>
-							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+			<script>
+				const handleChange = ()=>{
+					let value = document.getElementById("history").value;
+					if(value !== "x"){
+						window.location.assign(`/customer/checkout/${value}`);
+					} else {
+						window.location.assign(`/customer/checkout`);
+					}
+					console.log(value);
+				}
+			</script>
 		</th:block>
 	</body>
 </html>

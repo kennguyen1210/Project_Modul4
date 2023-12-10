@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="change_complete(message)">
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="bread"><span><a href="/customer/index">Home</a></span> / <span>Change Pass</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row align-content-center">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="contact-wrap">
+                    <h3>Change Pass</h3>
+                        <div class="row">
+                            <div class="w-100" th:switch="${message}">
+                                <h2 th:case="success" class="text-center text-bg-success" th:text="'Password change successful!'"></h2>
+                                <h2 th:case="failed" class="text-center text-bg-danger" th:text="'Password change failed!'"></h2>
+                                <h2 th:case="*" th:text=""></h2>
+                            </div>
+                        </div>
+                    <div class="row" th:switch="${message}">
+                        <div th:case="failed" class="col-md-6 text-center">
+                            <a href="/customer/new_code" class="btn btn-primary">Get New Code</a>
+                        </div>
+                        <div th:case="success" class="col-md-6 text-center">
+                            <a href="/customer/index" class="btn btn-primary">Back To Home</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>
