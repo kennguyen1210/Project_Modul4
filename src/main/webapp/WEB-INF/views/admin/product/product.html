@@ -48,7 +48,8 @@
                             <td th:text="${loop.count}"></td>
                             <td th:text="${pro.productName}"></td>
                             <td >
-                                <img th:each="img,loops:${pro.imageUrl.split(',')}" th:src="${img}" alt="#" width="50px" th:class="m-1">
+<!--                                <img th:each="img,loops:${pro.imageUrl.split(',')}" th:src="${img}" alt="#" width="50px" th:class="m-1">-->
+                                <img th:src="${pro.imageUrl}" alt="#" width="50px" th:class="m-1">
                             </td>
                             <td th:text="${pro.catalogId}"></td>
                             <td th:text="${pro.description}"></td>

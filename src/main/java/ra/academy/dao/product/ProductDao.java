@@ -72,7 +72,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
+            p.setImageUrl(rs.getString("imageUrl") != null ? Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null) : null);
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -92,7 +92,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
+            p.setImageUrl(rs.getString("imageUrl") != null ? Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null) : null);
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -112,7 +112,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
+            p.setImageUrl(rs.getString("imageUrl") != null ? Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null) : null);
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));
@@ -132,7 +132,7 @@ public class ProductDao implements IProductDao {
             p.setDescription(rs.getString("description"));
             p.setUnitPrice(rs.getDouble("unitPrice"));
             p.setStock(rs.getInt("stock"));
-            p.setImageUrl(Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null));
+            p.setImageUrl(rs.getString("imageUrl") != null ? Arrays.stream(rs.getString("imageUrl").split(",")).findFirst().orElse(null) : null);
             p.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
             p.setUpdated_at(rs.getTimestamp("updated_at") == null ? null : rs.getTimestamp("updated_at").toLocalDateTime());
             p.setStatus(rs.getBoolean("status"));

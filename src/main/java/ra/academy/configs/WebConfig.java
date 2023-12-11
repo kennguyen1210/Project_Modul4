@@ -51,7 +51,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/project_model4");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/project_modul4");
         dataSource.setUsername("root");
         dataSource.setPassword("Phuong123456");
         return dataSource;
@@ -155,19 +155,22 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         templateEngine.addDialect(new Java8TimeDialect());
         return templateEngine;
     }
+
+    // mail sender
     @Bean
-    public JavaMailSender mailSender(){
+    public JavaMailSender mailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);  // Use port 465 for SMTPS with SSL
 
         mailSender.setUsername("tammaoubqn@gmail.com");
-        mailSender.setPassword("vdbcomowlcqeehos"); // Replace with your Gmail app password
+        mailSender.setPassword("spbqwnzwnbqstylq"); // Replace with your Gmail app password
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         return mailSender;
     }
     @Override

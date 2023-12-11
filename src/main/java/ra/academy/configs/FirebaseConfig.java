@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 
 @Configuration
 public class FirebaseConfig {
-    private final String firebaseConfigPath = "E:\\interji-project\\demo_SpringMVC_JPA\\src\\main\\resources\\firebase-config.json";
+    private final String firebaseConfigPath = "D:\\interji-project\\demo_SpringMVC_JPA\\src\\main\\resources\\firebase-config.json";
     @Bean
     public Storage storage() throws IOException {
         InputStream serviceAccount = Files.newInputStream(Paths.get(firebaseConfigPath));
